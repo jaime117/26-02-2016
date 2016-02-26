@@ -1,0 +1,39 @@
+##########################EJERCICIO RECODIFICAR VARIABLE EDAD#######
+######0 A 14= 1 NIÑOS, 15 A 29=2 JOVENES, 30 A 59=3 ADULTOS, 60 A 97=A ADULTOS MAYORES
+###### 98 Y 99=5 NO ESPECIFICADO
+#####POR LOS DOS METODOS
+#####DESPUES ETIQUETAR GRUPOS
+#####COMPARAR METODOS
+
+###metodo 1
+sdemt215$EDA.1 [as.numeric(sdemt215$EDA) <=15 & as.numeric(sdemt215$EDA) >=1]<-1
+sdemt215$EDA.1 [as.numeric(sdemt215$EDA) <=30 & as.numeric(sdemt215$EDA) >=16]<-2
+sdemt215$EDA.1 [as.numeric(sdemt215$EDA) <=60 & as.numeric(sdemt215$EDA) >=31]<-3
+sdemt215$EDA.1 [as.numeric(sdemt215$EDA) <=98 & as.numeric(sdemt215$EDA) >=61]<-4
+sdemt215$EDA.1 [as.numeric(sdemt215$EDA) <=100 & as.numeric(sdemt215$EDA) >=99]<-5
+
+wtd.table(sdemt215$EDA.1)
+table(sdemt215$EDA.1)
+
+###metodo 2
+attach(sdemt215)
+sdemt215$EDA.2 <- ifelse(as.numeric(EDA) >=1 & as.numeric(EDA) <=15,1,
+                         ifelse(as.numeric(EDA) >=16 & as.numeric(EDA) <=30,2,
+                         ifelse(as.numeric(EDA) >=31 & as.numeric(EDA) <=60,3,
+                         ifelse(as.numeric(EDA) >=61 & as.numeric(EDA) <=98,4,5))))
+detach (sdemt215)
+
+###comparacion
+wtd.table(sdemt215$EDA.2)                         
+table(sdemt215$EDA.1)
+
+###etiquetar grupos
+sdemt215$EDA.1<-factor(sdemt215$EDA.1,
+                    levels=c(1,2,3,4,5),
+                    labels=c("Niños","Jovenes","Adultos","Adultos Mayores","No especificado"))
+table(sdemt215$EDA.1)
+
+sdemt215$EDA.2<-factor(sdemt215$EDA.2,
+                       levels=c(1,2,3,4,5),
+                       labels=c("Niños","Jovenes","Adultos","Adultos Mayores","No especificado"))
+table(sdemt215$EDA.2)
